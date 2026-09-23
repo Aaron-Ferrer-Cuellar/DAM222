@@ -1,13 +1,25 @@
 import fs from 'fs';
-import { listarProductos, agregarProducto, editarProducto, eliminarProducto } from './cocina.js';
-import { agregarPedido, pedidos, totalAcumulado } from './caja.js';
+import {productos,listarProductos, agregarProducto, editarProducto, eliminarProducto,obtenerProductosBaratos,obtenerProductosCaros,obtenerBebidas,obtenerPostres} from './cocina.js';
+import { agregarPedido, pedidos, totalAcumulado, calcularCaja } from './caja.js';
 
-// Función para leer texto de la consola sin readline
 const leer = (mensaje) => {
   process.stdout.write(mensaje);
   const buffer = Buffer.alloc(1024);
   const bytesLeidos = fs.readSync(0, buffer, 0, 1024, null);
   return buffer.toString('utf8', 0, bytesLeidos).trim();
+};
+
+// forEach() recorre los productos y ejecuta una acción por cada uno
+const mostrarDisponibles = () => {
+  console.log("\n--- PRODUCTOS DISPONIBLES ---");
+  productos.forEach(prod => {
+    console.log(`• ${prod.nombre} -> $${prod.precio}`);
+  });
+};
+
+// map() crea una nueva lista con un formato especial (menú dinámico/promos)
+const obtenerMenuPromociones = () => {
+  return productos.map(prod => `¡PROMO! ${prod.nombre} a solo $${prod.precio}`);
 };
 
 let salir = false;
@@ -19,7 +31,8 @@ while (!salir) {
   console.log("3. Listar pedidos del cliente");
   console.log("4. Gestionar productos (Cocina)");
   console.log("5. Ver total acumulado (Caja)");
-  console.log("6. Salir");
+  console.log("6. Ver Filtros y Promociones (Nuevo)");
+  console.log("7. Salir");
 
   const opcion = leer("Opción: ");
 
@@ -30,7 +43,8 @@ while (!salir) {
 
     case "2":
       listarProductos();
-      const cliente = leer("Nombre del cliente: ");
+      console.log("");
+      const cliente = leer("NOMBRE del cliente: ");
       const idProd = leer("ID del producto: ");
       agregarPedido(cliente, parseInt(idProd));
       break;
@@ -51,7 +65,8 @@ while (!salir) {
       if (acc === "1") {
         const n = leer("Nombre: ");
         const p = leer("Precio: ");
-        agregarProducto(n, parseFloat(p));
+        const c = leer("Categoría (bebidas/postres): ");
+        agregarProducto(n, parseFloat(p), c);
       } else if (acc === "2") {
         const id = leer("ID: ");
         const n = leer("Nuevo nombre: ");
@@ -64,10 +79,36 @@ while (!salir) {
       break;
 
     case "5":
-      console.log(`\nTotal acumulado: $${totalAcumulado}`);
+      // Uso de DESTRUCTURING: sacamos subtotal, iva y total directamente de la función
+      const { subtotal, iva, total } = calcularCaja();
+      console.log(`\n--- RESUMEN DE CAJA ---`);
+      console.log(`Subtotal: $${subtotal}`);
+      console.log(`IVA (16%): $${iva}`);
+      console.log(`Total a pagar: $${total}`);
       break;
 
     case "6":
+    console.log("\n--- MENÚ DINÁMICO Y PROMOS ---");
+    const promos = obtenerMenuPromociones();
+    promos.forEach(p => console.log(p));
+
+    console.log("\n--- FILTROS DISPONIBLES ---");
+    console.log("1. Baratos  2. Caros  3. Bebidas  4. Postres");
+    const f = leer("Selecciona filtro: ");
+
+    let listaFiltrada = [];
+    if (f === "1") listaFiltrada = obtenerProductosBaratos();
+    else if (f === "2") listaFiltrada = obtenerProductosCaros();
+    else if (f === "3") listaFiltrada = obtenerBebidas();
+    else if (f === "4") listaFiltrada = obtenerPostres();
+
+    console.log("\n--- RESULTADOS ---");
+    listaFiltrada.forEach(produc => {
+      console.log(`• ID: ${produc.id} | ${produc.nombre} - $${produc.precio} (${produc.categoria})`);
+    });
+    break;
+
+    case "7":
       salir = true;
       break;
 
