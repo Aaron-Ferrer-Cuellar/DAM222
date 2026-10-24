@@ -36,22 +36,23 @@ export const listarProductos = () => {
   }
 };
 
-export const obtenerProductosBaratos = () => {
-  return productos.filter(producto => producto.precio <= 25);
-};
+export const obtenerProductosBaratos = () => productos.filter(p => p.precio <= 25);
+export const obtenerProductosCaros = () => productos.filter(p => p.precio > 25);
+export const obtenerBebidas = () => productos.filter(p => p.categoria === "bebidas");
+export const obtenerPostres = () => productos.filter(p => p.categoria === "postres");
 
-export const obtenerProductosCaros = () => {
-  return productos.filter(producto => producto.precio > 25);
-};
+// Promesa que define si el pedido se puede preparar o si se cancela por falta de ingrediente
+export const prepararProductoPromesa = (producto) => {
+  return new Promise((resolve, reject) => {
+    // 70% de probabilidad de éxito, 30% de cancelación por error/falta de ingrediente
+    const exito = Math.random() > 0.3; 
 
-export const obtenerBebidas = () => {
-  return productos.filter(producto => producto.categoria === "bebidas");
-};
-
-export const obtenerPostres = () => {
-  return productos.filter(producto => producto.categoria === "postres");
-};
-
-export const buscarProductoPorId = (id) => {
-  return productos.find(producto => producto.id === id);
+    setTimeout(() => {
+      if (exito) {
+        resolve(`[Cocina]: ${producto.nombre} preparado con éxito.`);
+      } else {
+        reject(`[Error en Cocina]: Falta ingrediente para preparar ${producto.nombre}.`);
+      }
+    }, 1500);
+  });
 };

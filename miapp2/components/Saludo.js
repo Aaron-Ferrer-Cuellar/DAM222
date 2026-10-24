@@ -1,7 +1,7 @@
-import {text} from 'react-native';
+import {Text} from 'react-native';
 
 export const Saludo=()=>{
     return(
-        <text> Hola RN: Soy un componente Propio </text>
+        <Text> Hola RN: Soy un componente Propio </Text>
     )
 }
