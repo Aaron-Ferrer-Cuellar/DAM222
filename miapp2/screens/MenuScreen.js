@@ -28,16 +28,16 @@ export default function MenuScreen() {
 
                 <View style={styles.container}>
 
-                    <Text> Menu de Practicas </Text>``
+                    <Text> Menu de Practicas </Text>
                     <Button title='Tarjetas' onPress={ ()=> setScreen('tarjetas') }></Button>
 
-                    <Button title='SafeAreaView & ScrollView' onPress={ ()=> setScreen('safeScreen') }></Button>
-                    <Button title='Pressable & switch' onPress={ ()=> setScreen('') }></Button>
-                    <Button title='TextInput & Alert' onPress={ ()=> setScreen('') }></Button>
-                    <Button title='FlatList & SectionList' onPress={ ()=> setScreen('flatList') }></Button>
-                    <Button title='ImageBackgroung & SlapshScreen' onPress={ ()=> setScreen('') }></Button>
-                    <Button title='Modal & Bottom sheet' onPress={ ()=> setScreen('') }></Button>
-                    <Button title='ActivityIndicator & KeyboardAvoidingView' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='SafeAreaView & ScrollView' onPress={ ()=> setScreen('safeScreen') }></Button>
+                    <Button style={styles.boton} title='Pressable & switch' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='TextInput & Alert' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='FlatList & SectionList' onPress={ ()=> setScreen('flatList') }></Button>
+                    <Button style={styles.boton} title='ImageBackgroung & SlapshScreen' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='Modal & Bottom sheet' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='ActivityIndicator & KeyboardAvoidingView' onPress={ ()=> setScreen('') }></Button>
 
                     <StatusBar style="auto" />
 
@@ -53,5 +53,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#fff',
     flex: 1,
+  },
+
+  boton: {
+    margin: 10,
   },
 });
