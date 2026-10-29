@@ -60,29 +60,36 @@ export default function ListasScreen() {
 
 /* 3. Zona Estilos y posicionamiento */
 const styles = StyleSheet.create({
+  // 1. Contenedor principal de la pantalla
   container: {
-    flex: 1,
-    paddingTop: 50,
-    paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    flex: 1,               // Hace que el contenedor ocupe todo el espacio disponible en la pantalla
+    paddingTop: 50,        // Agrega un espacio interno superior de 50px (útil para evitar el notch/barra de estado)
+    paddingHorizontal: 20, // Agrega un espacio interno de 20px a la izquierda y a la derecha
+    backgroundColor: '#fff', // Define el color de fondo como blanco
   },
+
+  // 2. Estilo para el título principal
   titulo: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 10,
-    textAlign: 'center',
+    fontSize: 20,          // Establece el tamaño de la letra en 20px
+    fontWeight: 'bold',    // Pone el texto en negrita
+    marginTop: 20,         // Aplica un margen exterior superior de 20px para separarlo de elementos superiores
+    marginBottom: 10,      // Aplica un margen exterior inferior de 10px para separarlo del contenido de abajo
+    textAlign: 'center',   // Alinea el texto al centro horizontalmente
   },
+
+  // 3. Estilo para encabezados de sección o subtítulos
   encabezado: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    backgroundColor: '#e0e0e0',
-    padding: 5,
+    fontSize: 16,          // Establece el tamaño de la letra en 16px
+    fontWeight: 'bold',    // Pone el texto en negrita
+    backgroundColor: '#e0e0e0', // Aplica un color de fondo gris claro
+    padding: 5,            // Agrega un relleno interno de 5px alrededor de todo el contenido del encabezado
   },
+
+  // 4. Estilo para los ítems o filas de una lista
   item: {
-    fontSize: 14,
-    padding: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    fontSize: 14,          // Establece el tamaño de la letra en 14px
+    padding: 10,           // Agrega un relleno interno de 10px en todos los lados para dar espacio al contenido
+    borderBottomWidth: 1,  // Dibuja una línea de borde en la parte inferior de 1px de grosor
+    borderBottomColor: '#ccc', // Define el color de la línea inferior como gris medio
   },
 });

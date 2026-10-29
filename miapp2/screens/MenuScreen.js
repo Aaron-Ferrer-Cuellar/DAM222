@@ -4,7 +4,7 @@ import { StyleSheet, Text, Button, View} from 'react-native';
 import { useState } from 'react';
 import Tarjetas from './Tarjetas';
 import SafeScreen from './SafeScreen';
-import Pressable from './Pressable';
+import Pressable from './Pressables';
 import TextInput from './TextInput';
 import FlatList from './FlatList';
 
@@ -19,6 +19,10 @@ export default function MenuScreen() {
             return <Tarjetas></Tarjetas>
         case 'safeScreen':
             return <SafeScreen></SafeScreen>
+        case 'pressable':
+            return <Pressable></Pressable>
+        case 'textinput':
+            return <TextInput></TextInput>
         case 'flatList': 
             return <FlatList></FlatList>
         case 'menu':
@@ -32,8 +36,8 @@ export default function MenuScreen() {
                     <Button title='Tarjetas' onPress={ ()=> setScreen('tarjetas') }></Button>
 
                     <Button style={styles.boton} title='SafeAreaView & ScrollView' onPress={ ()=> setScreen('safeScreen') }></Button>
-                    <Button style={styles.boton} title='Pressable & switch' onPress={ ()=> setScreen('') }></Button>
-                    <Button style={styles.boton} title='TextInput & Alert' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='Pressable & switch' onPress={ ()=> setScreen('pressable') }></Button>
+                    <Button style={styles.boton} title='TextInput & Alert' onPress={ ()=> setScreen('textinput') }></Button>
                     <Button style={styles.boton} title='FlatList & SectionList' onPress={ ()=> setScreen('flatList') }></Button>
                     <Button style={styles.boton} title='ImageBackgroung & SlapshScreen' onPress={ ()=> setScreen('') }></Button>
                     <Button style={styles.boton} title='Modal & Bottom sheet' onPress={ ()=> setScreen('') }></Button>
