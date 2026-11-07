@@ -8,7 +8,7 @@ import Ejemplo from './screens/Ejemplo';
 export default function App() {
   return (
 
-    <Ejemplo></Ejemplo>
+    <MenuScreen></MenuScreen>
     
   );
 }
