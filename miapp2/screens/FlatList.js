@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     flex: 1,               // Hace que el contenedor ocupe todo el espacio disponible en la pantalla
     paddingTop: 50,        // Agrega un espacio interno superior de 50px (útil para evitar el notch/barra de estado)
     paddingHorizontal: 20, // Agrega un espacio interno de 20px a la izquierda y a la derecha
-    backgroundColor: '#fff', // Define el color de fondo como blanco
+    backgroundColor: '#C4F3FF', // Define el color de fondo como blanco
   },
 
   // 2. Estilo para el título principal
@@ -81,8 +81,9 @@ const styles = StyleSheet.create({
   encabezado: {
     fontSize: 16,          // Establece el tamaño de la letra en 16px
     fontWeight: 'bold',    // Pone el texto en negrita
-    backgroundColor: '#e0e0e0', // Aplica un color de fondo gris claro
-    padding: 5,            // Agrega un relleno interno de 5px alrededor de todo el contenido del encabezado
+    backgroundColor: '#525252', // Aplica un color de fondo gris claro
+    padding: 5, 
+    color: 'white'           // Agrega un relleno interno de 5px alrededor de todo el contenido del encabezado
   },
 
   // 4. Estilo para los ítems o filas de una lista
@@ -90,6 +91,6 @@ const styles = StyleSheet.create({
     fontSize: 14,          // Establece el tamaño de la letra en 14px
     padding: 10,           // Agrega un relleno interno de 10px en todos los lados para dar espacio al contenido
     borderBottomWidth: 1,  // Dibuja una línea de borde en la parte inferior de 1px de grosor
-    borderBottomColor: '#ccc', // Define el color de la línea inferior como gris medio
+    borderBottomColor: '#121212', // Define el color de la línea inferior como gris medio
   },
 });

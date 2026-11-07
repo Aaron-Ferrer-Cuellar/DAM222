@@ -2,12 +2,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image } from 'react-native';
 import MenuScreen from './screens/MenuScreen';
+import Ejemplo from './screens/Ejemplo';
 
 /* 2. Zona main */
 export default function App() {
   return (
 
-    <MenuScreen></MenuScreen>
+    <Ejemplo></Ejemplo>
     
   );
 }
