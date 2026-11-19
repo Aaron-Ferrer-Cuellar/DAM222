@@ -9,6 +9,7 @@ import TextInput from './TextInput';
 import FlatList from './FlatList';
 import ImageBackgrounds from './ImageBackgroungs';
 import ActivityIndicators from './ActivityIndicators';
+import Modals from './Modals';
 
 /* 2. Zona main */
 export default function MenuScreen() {
@@ -31,6 +32,8 @@ export default function MenuScreen() {
             return <ImageBackgrounds></ImageBackgrounds>
         case 'activityindicador':
             return <ActivityIndicators></ActivityIndicators>
+        case 'modal':
+            return <Modals></Modals>
         case 'menu':
             default: 
 
@@ -46,7 +49,7 @@ export default function MenuScreen() {
                     <Button style={styles.boton} title='TextInput & Alert' onPress={ ()=> setScreen('textinput') }></Button>
                     <Button style={styles.boton} title='FlatList & SectionList' onPress={ ()=> setScreen('flatList') }></Button>
                     <Button style={styles.boton} title='ImageBackgroung & SlapshScreen' onPress={ ()=> setScreen('imageBackground') }></Button>
-                    <Button style={styles.boton} title='Modal & Bottom sheet' onPress={ ()=> setScreen('') }></Button>
+                    <Button style={styles.boton} title='Modal & Bottom sheet' onPress={ ()=> setScreen('modal') }></Button>
                     <Button style={styles.boton} title='ActivityIndicator & KeyboardAvoidingView' onPress={ ()=> setScreen('activityindicador') }></Button>
 
                     <StatusBar style="auto" />
