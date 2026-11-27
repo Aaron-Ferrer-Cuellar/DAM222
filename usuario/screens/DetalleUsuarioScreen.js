@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { SafeAreaView,View,Text,StyleSheet,Pressable,Modal,} from 'react-native';
+import { SafeAreaView, View, Text, StyleSheet, Pressable, Modal } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+// AGREGADO: Importación de borrarUsuario para eliminar el registro de LocalStorage
+import { borrarUsuario } from '../services/usuariosService';
 
 export default function DetalleUsuarioScreen() {
 
@@ -14,12 +16,23 @@ export default function DetalleUsuarioScreen() {
 
    // Estado para mostrar u ocultar el modal
   const [modalVisible, setModalVisible] = useState(false);
+  // AGREGADO: Estado para bloquear el botón mientras elimina
+  const [eliminando, setEliminando] = useState(false);
 
-
-  // Confirmar la eliminación
-  const confirmarEliminacion = () => {
-    console.log('Eliminar usuario:', id);
-    setModalVisible(false);
+  // AGREGADO: Confirmar la eliminación borrando de LocalStorage y regresando al listado
+  const confirmarEliminacion = async () => {
+    if (eliminando) return;
+    setEliminando(true);
+    try {
+      await borrarUsuario(id);
+      setModalVisible(false);
+      alert('Usuario eliminado correctamente.');
+      router.replace('/consulta');
+    } catch (error) {
+      alert(error.message || 'No se pudo eliminar el usuario.');
+    } finally {
+      setEliminando(false);
+    }
   };
 
 
@@ -116,6 +129,7 @@ export default function DetalleUsuarioScreen() {
               <Pressable
                 style={styles.botonCancelar}
                 onPress={() => setModalVisible(false)}
+                disabled={eliminando} // AGREGADO: Deshabilita cancelar mientras elimina
               >
                 <Text style={styles.textoCancelar}>
                   Cancelar
@@ -125,11 +139,12 @@ export default function DetalleUsuarioScreen() {
 
               {/* CONFIRMAR ELIMINACIÓN */}
               <Pressable
-                style={styles.botonConfirmar}
+                style={[styles.botonConfirmar, eliminando && { opacity: 0.6 }]} // AGREGADO: Feedback visual al eliminar
                 onPress={confirmarEliminacion}
+                disabled={eliminando} // AGREGADO: Evita doble clic
               >
                 <Text style={styles.textoConfirmar}>
-                  Sí, eliminar
+                  {eliminando ? 'Eliminando...' : 'Sí, eliminar'} {/* AGREGADO: Texto dinámico */}
                 </Text>
               </Pressable>
 

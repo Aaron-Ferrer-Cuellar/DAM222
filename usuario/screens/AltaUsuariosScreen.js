@@ -1,9 +1,31 @@
 import React, { useState } from 'react';
-import {View,SafeAreaView,Text,TextInput,Pressable,StyleSheet,} from 'react-native';
+import { View, SafeAreaView, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+// AGREGADO: Importación de router y guardarUsuario para guardar en LocalStorage
+import { router } from 'expo-router';
+import { guardarUsuario } from '../services/usuariosService';
 
-export default function App() {
+export default function AltaUsuariosScreen() {
   const [nombre, setNombre] = useState('');
   const [edad, setEdad] = useState('');
+  // AGREGADO: Estado para evitar envíos duplicados mientras guarda
+  const [guardando, setGuardando] = useState(false);
+
+  // AGREGADO: Función asíncrona que valida y guarda el usuario en LocalStorage
+  const agregarUsuario = async () => {
+    if (guardando) return;
+    setGuardando(true);
+    try {
+      await guardarUsuario({ nombre, edad });
+      setNombre('');
+      setEdad('');
+      alert('Usuario guardado correctamente.');
+      router.push('/consulta');
+    } catch (error) {
+      alert(error.message || 'Error al guardar el usuario.');
+    } finally {
+      setGuardando(false);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -29,9 +51,14 @@ export default function App() {
           onChangeText={setEdad}
         />
 
-        <Pressable style={styles.boton}>
+        {/* AGREGADO: onPress conectado a agregarUsuario y estado disabled/estilo al guardar */}
+        <Pressable
+          style={[styles.boton, guardando && { backgroundColor: '#999' }]}
+          onPress={agregarUsuario}
+          disabled={guardando}
+        >
           <Text style={styles.textoBoton}>
-            Agregar Usuario
+            {guardando ? 'Guardando...' : 'Agregar Usuario'}
           </Text>
         </Pressable>
 
@@ -56,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     padding: 25,
     borderRadius: 15,
-    elevation: 5, 
+    elevation: 5,
     shadowColor: '#000',
     shadowOpacity: 0.15,
     shadowRadius: 8,

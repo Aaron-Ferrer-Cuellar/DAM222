@@ -1,14 +1,31 @@
 import React, { useState } from 'react';
-import { SafeAreaView,View,Text, TextInput, Pressable, StyleSheet,} from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { SafeAreaView, View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+// AGREGADO: router para volver al listado y editarUsuario para guardar cambios en LocalStorage
+import { router, useLocalSearchParams } from 'expo-router';
+import { editarUsuario } from '../services/usuariosService';
 
 export default function ActualizarUsuarioScreen() {
 
     const params = useLocalSearchParams();
-    const [nombre, setNombre] = useState(params.nombre);
-    const [edad, setEdad] =useState(params.edad);
+    const [nombre, setNombre] = useState(params.nombre ?? ''); // AGREGADO: Fallback vacío si no llega params.nombre
+    const [edad, setEdad] = useState(params.edad !== undefined ? String(params.edad) : ''); // AGREGADO: Convierte edad a string para TextInput
+    // AGREGADO: Estado para evitar doble guardado
+    const [guardando, setGuardando] = useState(false);
 
-    const actualizarUsuario = () => {};
+    // AGREGADO: Función asíncrona que valida y actualiza el usuario en LocalStorage
+    const actualizarUsuario = async () => {
+      if (guardando) return;
+      setGuardando(true);
+      try {
+        await editarUsuario(params.id, { nombre, edad });
+        alert('Usuario actualizado correctamente.');
+        router.replace('/consulta');
+      } catch (error) {
+        alert(error.message || 'Error al actualizar el usuario.');
+      } finally {
+        setGuardando(false);
+      }
+    };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -42,12 +59,14 @@ export default function ActualizarUsuarioScreen() {
           keyboardType="numeric"
         />
 
+        {/* AGREGADO: Estado disabled y texto dinámico mientras guarda */}
         <Pressable
-          style={styles.boton}
+          style={[styles.boton, guardando && { opacity: 0.6 }]}
           onPress={actualizarUsuario}
+          disabled={guardando}
         >
           <Text style={styles.textoBoton}>
-            Guardar cambios
+            {guardando ? 'Guardando...' : 'Guardar cambios'}
           </Text>
         </Pressable>
 

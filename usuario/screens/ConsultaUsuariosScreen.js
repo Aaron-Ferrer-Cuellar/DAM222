@@ -1,18 +1,36 @@
-import React from 'react';
-import {SafeAreaView,View,Text,FlatList,StyleSheet, Pressable,} from 'react-native';
-import { router } from 'expo-router';
+// AGREGADO: useState y useCallback para manejar la lista y recargar al enfocar la pantalla
+import React, { useState, useCallback } from 'react';
+import { SafeAreaView, View, Text, FlatList, StyleSheet, Pressable } from 'react-native';
+// AGREGADO: useFocusEffect y obtenerUsuarios para leer desde LocalStorage
+import { router, useFocusEffect } from 'expo-router';
+import { obtenerUsuarios } from '../services/usuariosService';
 
 export default function ConsultaUsuariosScreen() {
 
-  const usuarios = [
-    { id: '1', nombre: 'Isay Guerra', edad: 22 },
-    { id: '2', nombre: 'Ana López', edad: 19 },
-  ];
+  // AGREGADO: Estado dinámico en lugar del arreglo estático de prueba
+  const [usuarios, setUsuarios] = useState([]);
+
+  // AGREGADO: Función para consultar los usuarios guardados en LocalStorage
+  const cargarUsuarios = async () => {
+    try {
+      const lista = await obtenerUsuarios();
+      setUsuarios(lista);
+    } catch (error) {
+      alert(error.message || 'No se pudieron cargar los usuarios.');
+    }
+  };
+
+  // AGREGADO: Recarga la lista cada vez que vuelves a esta pestaña/pantalla
+  useFocusEffect(
+    useCallback(() => {
+      cargarUsuarios();
+    }, [])
+  );
 
   const renderTarjeta = ({ item }) => (
 
     <Pressable
-      onPress={() => router.push({pathname:'/detalle', 
+      onPress={() => router.push({pathname:'/detalle',
                                   params:{id:item.id, nombre:item.nombre, edad:item.edad} }) }
     >
       <View style={styles.card}>
@@ -40,15 +58,19 @@ export default function ConsultaUsuariosScreen() {
 
       <FlatList
         data={usuarios}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.id)} // AGREGADO: Asegura clave string
         renderItem={renderTarjeta}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
+        // AGREGADO: Mensaje cuando no hay registros en LocalStorage
+        ListEmptyComponent={
+          <Text style={styles.info}>No hay usuarios registrados.</Text>
+        }
       />
 
     </SafeAreaView>
   );
-  
+
 }
 
 const styles = StyleSheet.create({
